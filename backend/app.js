@@ -1,14 +1,25 @@
 import express from "express";
+const app = express();
 import dotenv from "dotenv";
 dotenv.config();
 import db_connect from "./conn/connection.js";
-const app = express();
-
 db_connect();
+import cartRoute from "./routes/cart.js";
+import userRouter from "./routes/user.js";
+import adminRouter from "./routes/book.js";
+import orderRoute from "./routes/order.js";
+import favouriteRoute from "./routes/favourite.js";
+
 app.use(express.json());
 
+app.use("/api/v1", userRouter);
+app.use("/api/v1", adminRouter);
+app.use("/api/v1", favouriteRoute);
+app.use("/api/v1", cartRoute);
+app.use("/api/v1", orderRoute);
+
 app.get("/", (req, res) => {
-  res.send("testing 12 ...");
+  res.send("home");
 });
 
 app.listen(process.env.PORT, () => {
