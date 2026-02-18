@@ -42,11 +42,18 @@ router.post("/signup", async (req, res) => {
 router.post("/signin", async (req, res) => {
   try {
     const { username, password } = req.body;
+
     const existingUser = await User.findOne({ username });
     if (!existingUser) {
-      res.status(400).json("invalid credentials !");
+      return res.status(400).json({ message: "invalid credentials !" });
     }
     bcrypt.compare(password, existingUser.password, (err, data) => {
+      if (err) {
+        return res.status(500).json({ message: "something went wrong !" });
+      }
+      if (!data) {
+        return res.status(400).json({ message: "Invalid credentials !" });
+      }
       if (data) {
         const authclaims = [
           { name: existingUser.username },
@@ -55,9 +62,12 @@ router.post("/signin", async (req, res) => {
         const token = jwt.sign({ authclaims }, "bookstore", {
           expiresIn: "30d",
         });
-        res.status(200).json({id:existingUser._id, role:existingUser.role, token});
-      } else {
-        res.status(400).json("invalid credentials !");
+        res.status(200).json({
+          id: existingUser._id,
+          role: existingUser.role,
+          token,
+          message: "login successfully",
+        });
       }
     });
   } catch (err) {
@@ -66,28 +76,27 @@ router.post("/signin", async (req, res) => {
   }
 });
 
-//* user info 
-router.get("/getuserinfo",authenticateToken, async (req,res)=>{
-    try{
-        const {id}=req.headers;
-        const data=await User.findById(id).select("-password");
-        res.status(200).json(data);
-    }catch(err){
-        res.status(500).json({message:"Internal server error !"})
-    }
-})
- 
+//* user info
+router.get("/getuserinfo", authenticateToken, async (req, res) => {
+  try {
+    const { id } = req.headers;
+    const data = await User.findById(id).select("-password");
+    res.status(200).json(data);
+  } catch (err) {
+    res.status(500).json({ message: "Internal server error !" });
+  }
+});
+
 //* update address
-router.put("/updateaddress",authenticateToken,async(req,res)=>{
-    try{
-        const {id}=req.headers;
-        const {address}=req.body;
-        await User.findByIdAndUpdate(id,{address});
-        res.status(200).json({message:"Address updated sucessfully"})
-    }
-    catch(err){
-        res.status(500).json({message:"Internal server error !"})
-    }
-})
+router.put("/updateaddress", authenticateToken, async (req, res) => {
+  try {
+    const { id } = req.headers;
+    const { address } = req.body;
+    await User.findByIdAndUpdate(id, { address });
+    res.status(200).json({ message: "Address updated sucessfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Internal server error !" });
+  }
+});
 
 export default router;

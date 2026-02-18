@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const bookSchema = mongoose.Schema(
-  { 
+  {
     url: {
       type: String,
       required: true,
@@ -30,4 +30,4 @@ const bookSchema = mongoose.Schema(
   { timestamps: true },
 );
 
-export default mongoose.model("books", bookSchema);
+export default mongoose.model("book", bookSchema);

@@ -1,7 +1,7 @@
 import express from "express";
 import User from "../models/user.js";
 import Book from "../models/book.js";
-const router = express.Router(); 
+const router = express.Router();
 import authenticateToken from "./userAuth.js";
 
 //* add book - admin
@@ -76,6 +76,7 @@ router.get("/getallbooks", async (req, res) => {
 
 //* get recent books
 router.get("/getrecentbooks", async (req, res) => {
+  console.log("GET /getrecentbooks HIT");
   try {
     const books = await Book.find().sort({ createdAt: -1 }).limit(4);
     return res.status(200).json({

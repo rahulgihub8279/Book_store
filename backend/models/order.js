@@ -8,7 +8,7 @@ const orderSchema = mongoose.Schema(
     },
     book: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "books",
+      ref: "book",
     },
     status: {
       type: String,
@@ -19,4 +19,4 @@ const orderSchema = mongoose.Schema(
   { timestamps: true },
 );
 
-export default mongoose.model("orders", orderSchema);
+export default mongoose.model("order", orderSchema);

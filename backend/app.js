@@ -1,6 +1,8 @@
-import express from "express";
-const app = express();
+import express, { urlencoded } from "express";
 import dotenv from "dotenv";
+import cors from "cors";
+
+const app = express();
 dotenv.config();
 import db_connect from "./conn/connection.js";
 db_connect();
@@ -10,7 +12,9 @@ import adminRouter from "./routes/book.js";
 import orderRoute from "./routes/order.js";
 import favouriteRoute from "./routes/favourite.js";
 
+app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({extended:true}))
 
 app.use("/api/v1", userRouter);
 app.use("/api/v1", adminRouter);
