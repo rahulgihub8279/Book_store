@@ -11,11 +11,11 @@ router.put("/addtocart", authenticateToken, async (req, res) => {
     const isCart = userData.cart.includes(bookid);
     if (isCart) {
       return res.status(200).json({
-        message: "book is already in card !",
+        message: "book is already in cart",
       });
     }
     await User.findByIdAndUpdate(id, { $push: { cart: bookid } });
-    return res.status(200).json({ message: "book added successfully" });
+    return res.status(200).json({ message: "book added to cart" });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Internal server error !" });

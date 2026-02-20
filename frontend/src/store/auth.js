@@ -7,11 +7,13 @@ const authSlice = createSlice({
     role: "user",
   },
   reducers: {
-    login(state) {
-      state.isLoggedIn = true;
+    login(state,action) {
+      state.isLoggedIn = true; 
+      state.role=action.payload.role;
     },
     logout(state) {
       state.isLoggedIn = false;
+      state.role=null;
     },
     changeRole(state, action) {
       const role = action.payload;

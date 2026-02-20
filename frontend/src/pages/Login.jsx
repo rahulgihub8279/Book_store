@@ -29,14 +29,11 @@ export default function Login() {
         "http://localhost:8000/api/v1/signin",
         payload,
       );
-      dispatch(authActions.login())
-      dispatch(authActions.changeRole(response.data.role));
+      dispatch(authActions.login({role:response.data.role})); 
       localStorage.setItem("id", response.data.id);
       localStorage.setItem("role", response.data.role);
       localStorage.setItem("token", response.data.token);
-
       navigate("/");
-      console.log(response.data.message);
     } catch (err) {
       console.log(err.response.data.message);
       alert(err.response?.data?.message || "Login failed");

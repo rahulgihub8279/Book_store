@@ -5,12 +5,12 @@ import authenticateToken from "./userAuth.js";
 
 //* add book to favourite - user
 router.put("/addbooktofavoutite", authenticateToken, async (req, res) => {
-  try {
+  try { 
     const { bookid, id } = req.headers;
     const userData = await User.findById(id);
     const isBookFav = userData.favourites.includes(bookid);
     if (isBookFav) {
-      return res.status(200).json({ message: "Book already exist !" });
+      return res.status(200).json({ message: "Book already in favourites" });
     }
     await User.findByIdAndUpdate(id, { $push: { favourites: bookid } });
     return res.status(200).json({ message: "Book added favourites" });

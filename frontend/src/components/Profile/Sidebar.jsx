@@ -3,9 +3,9 @@ import { MdOutlineLogout } from "react-icons/md";
 
 export default function Sidebar({ data }) {
   return (
-    <div className="bg-zinc-800 p-4 h-[100%] rounded-md flex flex-col items-center justify-between">
+    <div className="bg-zinc-800 p-4 h-screen rounded-md flex flex-col items-center justify-between">
       <div className="flex flex-col items-center justify-center">
-        <img src={data.avatar} alt="" className="h-[12vh]" />
+        <img src={data.avatar} alt="" className="h-[12vh] mt-5" />
         <p className="mt-3 font-semibold text-zinc-200">{data.username}</p>
         <p className="mb-3  font-light text-sm">{data.email}</p>
         <div className="mt-6 bg-zinc-300 h-px w-full hidden md:flex"></div>

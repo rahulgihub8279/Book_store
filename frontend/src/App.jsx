@@ -19,15 +19,13 @@ import { authActions } from "./store/auth";
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
-    const role=localStorage.getItem("role")
-    if (
-      localStorage.getItem("id") &&
-      localStorage.getItem("token") && role
-    ) {
-      dispatch(authActions.login());
-      dispatch(authActions.changeRole(localStorage.getItem(role)));
+    const role = localStorage.getItem("role");
+    const token = localStorage.getItem("token");
+
+    if (token && role) {
+      dispatch(authActions.login({ role }));
     }
-  });
+  }, []);
   return (
     <>
       <Navbar></Navbar>
