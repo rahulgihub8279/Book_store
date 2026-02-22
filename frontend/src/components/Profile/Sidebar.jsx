@@ -11,7 +11,7 @@ export default function Sidebar({ data }) {
   const role=useSelector((state)=>state.auth.role);
 
   return (
-    <div className="bg-zinc-800 p-4 h-screen rounded-md flex flex-col items-center justify-between">
+    <div className="bg-zinc-800 p-4  md:h-screen rounded-md flex flex-col items-center justify-between">
       <div className="flex flex-col items-center justify-center">
         <img src={data.avatar} alt="" className="h-[12vh] mt-5" />
         <p className="mt-3 font-semibold text-zinc-200">{data.username}</p>
@@ -42,7 +42,7 @@ export default function Sidebar({ data }) {
       </div>
       )}
       {role==="admin" && (
-        <div className="w-full flex-col items-center justify-center hidden md:flex text-lg">
+        <div className="w-full flex-row md:flex-col items-center justify-center flex text-xl sm:text-lg gap-2 sm:gap-4">
         <Link
           to="/profile"
           className="text-zinc-100 font-semibold w-full py-2 mt-4 text-center hover:bg-zinc-900 rounded transition-all duration-300"
