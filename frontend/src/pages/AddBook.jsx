@@ -37,7 +37,7 @@ export default function AddBook() {
         alert("all fields are required !");
       } else {
         const response = await axios.post(
-          "http://localhost:8000/api/v1/addbook",
+          "https://book-heaven-9n21.onrender.com/api/v1/addbook",
           data,
           { headers },
         );

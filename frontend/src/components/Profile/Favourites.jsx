@@ -16,7 +16,7 @@ export default function Favourites() {
     const fetch = async () => {
       setLoading(true);
       const response = await axios.get(
-        "http://localhost:8000/api/v1/getallfavouritesbooks",
+        "https://book-heaven-9n21.onrender.com/api/v1/getallfavouritesbooks",
         { headers },
       );
       setTimeout(() => {

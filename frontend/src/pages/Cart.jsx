@@ -17,7 +17,7 @@ export default function Cart() {
   useEffect(() => {
     const fetch = async () => {
       setLoading(true);
-      const response = await axios.get("http://localhost:8000/api/v1/getcart", {
+      const response = await axios.get("https://book-heaven-9n21.onrender.com/api/v1/getcart", {
         headers,
       });
       setTimeout(() => {
@@ -30,7 +30,7 @@ export default function Cart() {
 
   const deleteItem = async (bookid) => {
     const response = await axios.put(
-      `http://localhost:8000/api/v1/removefromcart/${bookid}`,
+      `https://book-heaven-9n21.onrender.com/api/v1/removefromcart/${bookid}`,
       {},
       { headers },
     );
@@ -42,7 +42,7 @@ export default function Cart() {
     let load=false;
     try{
       load=true;
-      const response=await axios.post("http://localhost:8000/api/v1/placeorder",{order:cart},{headers})
+      const response=await axios.post("https://book-heaven-9n21.onrender.com/api/v1/placeorder",{order:cart},{headers})
       load=false;
       {load && <Loader></Loader>}
       navigate("/profile/orderHisory")

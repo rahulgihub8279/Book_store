@@ -32,7 +32,7 @@ export default function AllOrders() {
       return;
     }
     const response = await axios.put(
-      `http://localhost:8000/api/v1/updatestatus/${order_id}`,
+      `https://book-heaven-9n21.onrender.com/api/v1/updatestatus/${order_id}`,
       {status},
       { headers },
     );
@@ -46,7 +46,7 @@ export default function AllOrders() {
   useEffect(() => {
     const fetch = async () => {
       const response = await axios.get(
-        "http://localhost:8000/api/v1/getallorders",
+        "https://book-heaven-9n21.onrender.com/api/v1/getallorders",
         { headers },
       );
       setAllOrders(response.data.data);

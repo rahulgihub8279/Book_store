@@ -26,7 +26,7 @@ export default function BookDetails() {
   };
   const handleFavourite = async () => {
     const response = await axios.put(
-      "http://localhost:8000/api/v1/addbooktofavoutite",
+      "https://book-heaven-9n21.onrender.com/api/v1/addbooktofavoutite",
       {},
       { headers },
     );
@@ -37,7 +37,7 @@ export default function BookDetails() {
   };
   const handleCart = async () => {
     const response = await axios.put(
-      "http://localhost:8000/api/v1/addtocart",
+      "https://book-heaven-9n21.onrender.com/api/v1/addtocart",
       {},
       { headers },
     );
@@ -47,7 +47,7 @@ export default function BookDetails() {
   };
   const handleDelete = async () => {
     const response = await axios.delete(
-      "http://localhost:8000/api/v1/deletebook",
+      "https://book-heaven-9n21.onrender.com/api/v1/deletebook",
       { headers },
     );
     toast.success(response.data.message);
@@ -59,7 +59,7 @@ export default function BookDetails() {
       try {
         setLoading(true);
         const response = await axios.get(
-          `http://localhost:8000/api/v1/getbookbyid/${id}`,
+          `https://book-heaven-9n21.onrender.com/api/v1/getbookbyid/${id}`,
         );
         setTimeout(() => {
           setData(response.data.data);

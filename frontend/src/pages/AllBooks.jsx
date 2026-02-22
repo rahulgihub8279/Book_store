@@ -15,7 +15,7 @@ export default function AllBooks() {
       try {
         setLoading(true);
         const response = await axios.get(
-          "http://localhost:8000/api/v1/getallbooks",
+          "https://book-heaven-9n21.onrender.com/api/v1/getallbooks",
         );
         setTimeout(() => {
           setLoading(false);

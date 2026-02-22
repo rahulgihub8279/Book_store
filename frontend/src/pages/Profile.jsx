@@ -14,7 +14,7 @@ export default function Profile() {
   useEffect(() => {
     const fetch = async () => {
       const response = await axios.get(
-        "http://localhost:8000/api/v1/getuserinfo",
+        "https://book-heaven-9n21.onrender.com/api/v1/getuserinfo",
         { headers },
       );
       setProfile(response.data); 

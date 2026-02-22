@@ -17,7 +17,7 @@ export default function BookCard({ data, favourite, onRemove }) {
   const handleRemoveBook = async () => {
     try {
       const response = await axios.put(
-        "http://localhost:8000/api/v1/removebookfavourite",
+        "https://book-heaven-9n21.onrender.com/api/v1/removebookfavourite",
         {},
         { headers }
       );

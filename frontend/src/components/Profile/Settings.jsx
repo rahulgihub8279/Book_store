@@ -14,7 +14,7 @@ export default function Settings() {
   useEffect(() => {
     const fetch = async () => {
       const response = await axios.get(
-        "http://localhost:8000/api/v1/getuserinfo",
+        "https://book-heaven-9n21.onrender.com/api/v1/getuserinfo",
         { headers },
       );
       setValue({ address: response.data.address });
@@ -31,7 +31,7 @@ export default function Settings() {
   };
   const submitAddress = async () => {
     const response = await axios.put(
-      "http://localhost:8000/api/v1/updateaddress",
+      "https://book-heaven-9n21.onrender.com/api/v1/updateaddress",
       { address: value.address },
       { headers },
     );

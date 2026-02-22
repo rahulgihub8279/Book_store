@@ -42,7 +42,7 @@ export default function UpdateBook() {
         alert("all fields are required !");
       } else {
         const response = await axios.put(
-          "http://localhost:8000/api/v1/updatebook",
+          "https://book-heaven-9n21.onrender.com/api/v1/updatebook",
           data,
           { headers },
         );
@@ -67,7 +67,7 @@ export default function UpdateBook() {
       try {
         setLoading(true);
         const response = await axios.get(
-          `http://localhost:8000/api/v1/getbookbyid/${id}`,
+          `https://book-heaven-9n21.onrender.com/api/v1/getbookbyid/${id}`,
         );
         setData(response.data.data);
         setLoading(false);

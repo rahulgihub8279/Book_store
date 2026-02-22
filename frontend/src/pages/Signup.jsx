@@ -36,7 +36,7 @@ export default function Signup() {
         address: String(values.address).trim(),
       };
       const response = await axios.post(
-        "http://localhost:8000/api/v1/signup",
+        "https://book-heaven-9n21.onrender.com/api/v1/signup",
         payload,
       );
       const message = response.data.message;
