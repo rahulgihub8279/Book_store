@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Loader from "../Loader/Loader";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { IoCart } from "react-icons/io5";
-import { FaHeart,FaEdit } from "react-icons/fa"; 
+import { FaHeart, FaEdit } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
 
 export default function BookDetails() {
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [Data, setData] = useState(null);
@@ -16,31 +17,49 @@ export default function BookDetails() {
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const role = useSelector((state) => state.auth.role);
+  const navigate = useNavigate();
 
-  const handleFavourite= async()=>{
-    const headers={
-      bookid:id,
-      id:localStorage.getItem("id"),
-      authorization:`Bearer ${localStorage.getItem("token")}`
-    }
-    const response=await axios.put("http://localhost:8000/api/v1/addbooktofavoutite",{},{headers});
-    toast.success(response.data.message)
-  }
-  const handleCart=async()=>{
-    const headers={
-      bookid:id,
-      id:localStorage.getItem("id"),
-      authorization:`Bearer ${localStorage.getItem("token")}`
-    }
-    const response=await axios.put("http://localhost:8000/api/v1/addtocart",{},{headers});  
-    toast.success(response.data.message)
-  }
+  const headers = {
+    bookid: id,
+    id: localStorage.getItem("id"),
+    authorization: `Bearer ${localStorage.getItem("token")}`,
+  };
+  const handleFavourite = async () => {
+    const response = await axios.put(
+      "http://localhost:8000/api/v1/addbooktofavoutite",
+      {},
+      { headers },
+    );
+    const res = response.data.message;
+    if (res === "Book added to favourites")
+      toast.success(response.data.message);
+    else toast.warn(response.data.message);
+  };
+  const handleCart = async () => {
+    const response = await axios.put(
+      "http://localhost:8000/api/v1/addtocart",
+      {},
+      { headers },
+    );
+    const res = response.data.message;
+    if (res === "book is already in cart") toast.warn(response.data.message);
+    else toast.success(response.data.message);
+  };
+  const handleDelete = async () => {
+    const response = await axios.delete(
+      "http://localhost:8000/api/v1/deletebook",
+      { headers },
+    );
+    toast.success(response.data.message);
+    setShowDeleteModal(false)
+    navigate("/allbooks");
+  };
   useEffect(() => {
     const fetchBook = async () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `http://localhost:8000/api/v1/getbookbyid/${id}`
+          `http://localhost:8000/api/v1/getbookbyid/${id}`,
         );
         setTimeout(() => {
           setData(response.data.data);
@@ -50,7 +69,7 @@ export default function BookDetails() {
         console.error(err);
         setLoading(false);
       }
-    }; 
+    };
     fetchBook();
   }, [id]);
 
@@ -75,39 +94,48 @@ export default function BookDetails() {
             onError={(e) => (e.target.src = "/logo.png")}
           />
 
-          {isLoggedIn && (
+          {isLoggedIn && role === "user" && (
             <div className="flex h-full flex-row lg:flex-col gap-10">
               {" "}
-              <button className="bg-zinc-300 rounded-full text-blue-700 p-3 text-2xl sm:text-3xl hover:bg-zinc-700 hover:scale-110 transition"
-              onClick={handleCart}>
+              <button
+                className="bg-zinc-300 rounded-full text-blue-700 p-3 text-2xl sm:text-3xl hover:bg-zinc-700 hover:scale-110 transition"
+                onClick={handleCart}
+              >
                 <IoCart />
               </button>
-              <button className="bg-zinc-300 text-red-700 rounded-full p-3 text-2xl sm:text-3xl hover:bg-zinc-700 hover:scale-110 transition" onClick={handleFavourite}>
+              <L
+                className="bg-zinc-300 text-red-700 rounded-full p-3 text-2xl sm:text-3xl hover:bg-zinc-700 hover:scale-110 transition"
+                onClick={handleFavourite}
+              >
                 <FaHeart />
-              </button>
+              </L>
             </div>
           )}
 
           {isLoggedIn && role === "admin" && (
             <div className="flex h-full flex-row lg:flex-col gap-10">
-              <button className="bg-zinc-300 rounded-full text-blue-700 p-3 text-2xl sm:text-3xl hover:bg-zinc-700 hover:scale-110 transition">
+              <Link
+                to={`/updatebook/${id}`}
+                className="bg-zinc-300 rounded-full text-blue-700 p-3 text-2xl sm:text-3xl hover:bg-zinc-700 hover:scale-110 transition"
+              >
                 <FaEdit />
-              </button> 
-              <button className="bg-zinc-300 rounded-full text-red-700 p-3 text-2xl sm:text-3xl hover:bg-zinc-700 hover:scale-110 transition">
+              </Link>
+              <button
+                className="bg-zinc-300 rounded-full text-red-700 p-3 text-2xl sm:text-3xl hover:bg-zinc-700 hover:scale-110 transition"
+                // onClick={handleDelete}
+                onClick={() => setShowDeleteModal(true)}
+              >
                 <MdDelete />
-              </button> 
+              </button>
             </div>
           )}
         </div>
- 
         <div className="w-full lg:w-1/2 flex flex-col gap-4">
           <h1 className="text-xl sm:text-2xl lg:text-4xl text-zinc-200 font-semibold">
             {Data?.title}
           </h1>
 
-          <p className="text-sm sm:text-lg text-zinc-400">
-            by {Data?.author}
-          </p>
+          <p className="text-sm sm:text-lg text-zinc-400">by {Data?.author}</p>
 
           <p className="text-sm sm:text-base text-zinc-400 leading-relaxed">
             {expanded || Data.desc.length <= 300
@@ -129,6 +157,33 @@ export default function BookDetails() {
           </p>
         </div>
       </div>
+      {showDeleteModal && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+          <div className="bg-zinc-900 rounded-lg p-6 w-[90%] max-w-md shadow-xl">
+            <h2 className="text-xl font-semibold text-zinc-100 mb-3">
+              Delete Book
+            </h2>
+            <p className="text-zinc-400 mb-6">
+              Are you sure ?
+            </p>
+            <div className="flex justify-end gap-5">
+              <button
+                className="px-4 py-2 rounded-md bg-zinc-700 text-zinc-200 hover:bg-zinc-600"
+                onClick={() => setShowDeleteModal(false)}
+              >
+                Cancel
+              </button>
+
+              <button
+                className="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700"
+                onClick={handleDelete}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

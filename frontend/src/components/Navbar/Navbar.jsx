@@ -21,11 +21,23 @@ export default function Navbar() {
       title: "Profile",
       link: "/profile",
     },
+    {
+      title: "Admin Profile",
+      link: "/profile",
+    },
   ];
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const role = useSelector((state) => state.auth.role);
+
   if (!isLoggedIn) {
-    links.splice(2, 2);
+    links.splice(2, 3);
+  }
+  if (isLoggedIn && role === "user") {
+    links.splice(4, 1);
+  }
+  if (isLoggedIn && role === "admin") {
+    links.splice(3, 1);
   }
   const [mobileNav, setMobileNav] = useState("hidden");
   return (
@@ -35,16 +47,28 @@ export default function Navbar() {
           <img className="w-10 h-10 me-3" src="./logo.png" alt="logo" />
           <h1 className="text-2xl font-semibold">Book Heaven</h1>
         </Link>
-        <div className="nav-links-bookheaven block md:flex gap-4 items-center">
+        <div className="nav-links-bookheaven block md:flex gap-3 items-center">
           <div className="hidden md:flex gap-4">
             {links.map((items, i) => (
-              <Link
-                to={items.link}
-                className="hover:text-blue-500 transition-all duration-300 cursor-pointer"
-                key={i}
-              >
-                {items.title}
-              </Link>
+              <div className="flex items-center" key={i}>
+                {items.title === "Profile" ||
+                items.title === "Admin Profile" ? (
+                  <Link
+                    to={items.link}
+                    className="px-4 py-1 rounded-lg border border-blue-500 text-blue-500
+hover:bg-blue-500/20 hover:text-white transition-all duration-200"
+                  >
+                    {items.title}
+                  </Link>
+                ) : (
+                  <Link
+                    to={items.link}
+                    className="hover:text-blue-500 transition-all duration-300 cursor-pointer"
+                  >
+                    {items.title}
+                  </Link>
+                )}
+              </div>
             ))}
           </div>
           <div className="hidden md:flex gap-4">

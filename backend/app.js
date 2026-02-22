@@ -14,7 +14,7 @@ import favouriteRoute from "./routes/favourite.js";
 
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({extended:true}))
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/v1", userRouter);
 app.use("/api/v1", adminRouter);
@@ -24,7 +24,7 @@ app.use("/api/v1", orderRoute);
 
 app.get("/", (req, res) => {
   res.send("home");
-});
+}); 
 
 app.listen(process.env.PORT, () => {
   console.log(`server is listenig on ${process.env.PORT}`);

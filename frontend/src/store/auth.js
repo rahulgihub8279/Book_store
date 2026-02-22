@@ -13,7 +13,7 @@ const authSlice = createSlice({
     },
     logout(state) {
       state.isLoggedIn = false;
-      state.role=null;
+      state.role="user";
     },
     changeRole(state, action) {
       const role = action.payload;

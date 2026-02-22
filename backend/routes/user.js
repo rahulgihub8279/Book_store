@@ -31,7 +31,15 @@ router.post("/signup", async (req, res) => {
 
     const newUser = new User({ username, email, password: hashPass, address });
     await newUser.save();
-    return res.status(200).json({ message: "sign-up successfully" });
+     const authclaims = [
+          { name: newUser.username },
+          { role: newUser.role },
+        ];
+        const token = jwt.sign({ authclaims }, "bookstore", {
+          expiresIn: "30d",
+        });
+         
+    return res.status(200).json({ token,newUser,message: "sign-up successfully" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal server error" });
@@ -96,6 +104,22 @@ router.put("/updateaddress", authenticateToken, async (req, res) => {
     res.status(200).json({ message: "Address updated sucessfully" });
   } catch (err) {
     res.status(500).json({ message: "Internal server error !" });
+  }
+});
+//* make admin
+router.put("/makeadmin/:id", authenticateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findByIdAndUpdate(id, { role: "admin" });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({
+      message: "User promoted to admin",
+      user,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
 

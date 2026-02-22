@@ -45,8 +45,8 @@ export default function Cart() {
       const response=await axios.post("http://localhost:8000/api/v1/placeorder",{order:cart},{headers})
       load=false;
       {load && <Loader></Loader>}
-      toast.success(response.data.message)
       navigate("/profile/orderHisory")
+      toast.info(response.data.message)
     }catch(err){
       console.log(err);
     }
@@ -57,8 +57,8 @@ export default function Cart() {
       {!loading && cart.length === 0 && (
         <div className="h-screen">
           <div className="h-full flex items-center justify-center flex-col">
-            <h1 className="text-5xl lg:text-6xl font-semibold">Empty Cart</h1>
-            <img src="./cart.png" alt="empty_cart" className="lg:h-[50vh]" />
+            <h1 className="md:text-5xl text-zinc-500 lg:text-6xl text-3xl font-semibold">Empty Cart</h1>
+            <img src="./cart.png" alt="empty_cart" className="md:h-[30vh] h-[20vh] mt-10 opacity-60" />
           </div>
         </div>
       )}
@@ -104,9 +104,9 @@ export default function Cart() {
         </div>
       )}
       {cart.length > 0 && (
-        <div className="mt-4 w-full flex justify-end items-center">
+        <div className="mt-4  w-full flex justify-end items-center">
           {" "}
-          <div className="px-6 py-4 bg-zinc-800  rounded">
+          <div className="px-6 py-3 bg-zinc-800  rounded-md">
             <h1 className="text-2xl text-zinc-200 font-semibold">
               Total Amount
             </h1>
@@ -114,7 +114,7 @@ export default function Cart() {
               <h2>{cart.length} books</h2>{" "}
               <h2 className="font-semibold"> ₹ {total}</h2>
             </div>
-            <div className="mt-3 w-full flex justify-end">
+            <div className="mt-3  w-full flex justify-end">
               <button
                 className="bg-green-400 text-black rounded p-2 hover:bg-white font-semibold text-lg
                   transition-all

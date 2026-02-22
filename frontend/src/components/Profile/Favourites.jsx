@@ -25,7 +25,7 @@ export default function Favourites() {
       }, 200);
     };
     fetch();
-  }, []);
+  }, );
 
   const removeFromUI = (bookid) => {
     setFavouriteBooks((prev) => prev.filter((book) => book._id !== bookid));

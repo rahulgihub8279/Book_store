@@ -14,8 +14,9 @@ createRoot(document.getElementById("root")).render(
       <Provider store={store}>
         <App />
         <ToastContainer
+        className={"mt-12"}
       position="top-right"
-      autoClose={2000}
+      autoClose={1500}
       hideProgressBar={false}
       newestOnTop
       closeOnClick

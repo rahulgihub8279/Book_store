@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { authActions } from "../store/auth";
+import { useDispatch } from "react-redux";
 
 export default function Signup() {
+  const dispatch = useDispatch();
   const [values, setValues] = useState({
     username: "",
     password: "",
@@ -16,8 +20,13 @@ export default function Signup() {
   };
   const submit = async () => {
     try {
-      if(!values.username || !values.password || !values.email || !values.address){
-        alert("all fields are required !");
+      if (
+        !values.username ||
+        !values.password ||
+        !values.email ||
+        !values.address
+      ) {
+        toast.warn("all fields are required !");
         return;
       }
       const payload = {
@@ -30,9 +39,18 @@ export default function Signup() {
         "http://localhost:8000/api/v1/signup",
         payload,
       );
-      console.log(response.data.message)
+      const message = response.data.message;
+      const token = response.data.token;
+      const role = response.data.newUser.role;
+      const id = response.data.newUser._id; 
+      
+      dispatch(authActions.login({ role }));
+      localStorage.setItem("id", id);
+      localStorage.setItem("role", role);
+      localStorage.setItem("token", token);
       navigate("/");
-      alert(response.data.message);
+      toast.info(message);
+
     } catch (err) {
       console.log(err.response.data.message);
       alert(err.response?.data?.message || "Signup Failed");

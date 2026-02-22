@@ -48,7 +48,7 @@ router.get("/getorderhistory", authenticateToken, async (req, res) => {
   }
 });
 
-//* get all orders
+//* get all orders - admin
 router.get("/getallorders", authenticateToken, async (req, res) => {
   try {
     const userData = await Order.find()
@@ -68,14 +68,20 @@ router.get("/getallorders", authenticateToken, async (req, res) => {
 router.put("/updatestatus/:id", authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
-    await Order.findByIdAndUpdate(id, { status: req.body.status });
+    const { status } = req.body;
+
+    if (!status) {
+      return res.status(400).json({ message: "Status is required" });
+    }
+
+    await Order.findByIdAndUpdate(id, { status });
+
     return res.status(200).json({
-      message: "status updated successfully",
+      message: "Status updated successfully",
     });
   } catch (err) {
-    console.log(err);
-    return res.status(500).json("Internal Server error");
+    console.error(err);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 });
-
 export default router;

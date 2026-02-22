@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import { authActions } from "../store/auth";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const [values, setValues] = useState({
@@ -18,7 +19,7 @@ export default function Login() {
   const submit = async () => {
     try {
       if (!values.username || !values.password) {
-        alert("all fields are required !");
+        toast.warn("all fields are required !");
         return;
       }
       const payload = {
@@ -34,9 +35,10 @@ export default function Login() {
       localStorage.setItem("role", response.data.role);
       localStorage.setItem("token", response.data.token);
       navigate("/");
+      toast("welcome back")
     } catch (err) {
       console.log(err.response.data.message);
-      alert(err.response?.data?.message || "Login failed");
+      toast.warn(err.response?.data?.message || "Login failed");
     }
   };
   return (
