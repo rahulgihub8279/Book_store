@@ -1,4 +1,4 @@
-# 📚 Book Store – Full Stack Web Application
+# Book Store
 
 ![React](https://img.shields.io/badge/React-18-blue)
 ![Redux](https://img.shields.io/badge/Redux-Toolkit-purple)
@@ -12,22 +12,22 @@ This project demonstrates **real-world full-stack architecture**, authentication
 
 ---
 
-## 🚀 Features
+## Features
 
-### 👤 User Features
+### User Features
 - User authentication (Login / Register)
 - Browse books with detailed view
 - Add books to cart
 - Wishlist (favorites)
 - Responsive UI (mobile & desktop)
 
-### 🛠️ Admin Features
+### Admin Features
 - Admin role management
 - Add / update / delete books
 - Manage users
 - Secure admin routes
 
-### ⚙️ Technical Highlights
+### Technical Highlights
 - Redux Toolkit for global state
 - JWT-based authentication
 - RESTful API architecture
@@ -37,7 +37,7 @@ This project demonstrates **real-world full-stack architecture**, authentication
 
 ---
 
-## 🧑‍💻 Tech Stack
+## Tech Stack
 
 ### Frontend
 - **React**
@@ -56,7 +56,7 @@ This project demonstrates **real-world full-stack architecture**, authentication
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```text
 Book-Store/
